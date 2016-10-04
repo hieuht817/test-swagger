@@ -1,0 +1,65 @@
+---
+swagger: '2.0'
+info:
+  version: "1.0.0"
+  title: Vibbidi Server API
+  description: |
+    Core Vibbidi Server API.
+    Server code is available [here](https://github.com/Glue-th/VIBBIDI-server). It's running on AWS EC2.
+
+    **User Name and Password**
+    * User Name: `user`
+    * Password: `pass`
+host: g-api.vibbidi.com
+
+basePath: /v1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /users/{id}:
+    get:
+      parameters:
+      - name: id
+        in: path
+        description: ID or user_name of user to use
+        required: true
+        type: string
+      description: Returns user profile
+      summary: Get user by ID or name
+      operationId: getUserById
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: a pet to be returned
+          schema:
+            $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+definitions:
+  User:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+      tag:
+        type: string
+  ErrorModel:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
